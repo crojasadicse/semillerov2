@@ -3,6 +3,7 @@ package com.semillero.semillero.service.impl;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import com.semillero.semillero.models.StateEntity;
 import com.semillero.semillero.repository.IStateRepository;
@@ -10,6 +11,7 @@ import com.semillero.semillero.service.IStateService;
 
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class StateServiceImpl implements IStateService {
 

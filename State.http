@@ -1,0 +1,12 @@
+### Crear State
+POST http://localhost:8080/states
+Content-Type: application/json
+
+{
+    "stateDescription": "PENDIENTE",
+    "stateComment": "Estado inicial de la solicitud"
+}
+
+
+### Obtener State
+GET http://localhost:8080/states/2
