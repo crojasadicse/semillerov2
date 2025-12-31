@@ -5,10 +5,15 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.semillero.semillero.dto.StateRequestDto;
+import com.semillero.semillero.dto.StateResponseDto;
+import com.semillero.semillero.mappers.StateMapper;
 import com.semillero.semillero.models.StateEntity;
 import com.semillero.semillero.repository.IStateRepository;
 import com.semillero.semillero.service.IStateService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,50 +22,84 @@ public class StateServiceImpl implements IStateService {
 
 
     private final IStateRepository iStateRepository;
+    private final StateMapper stateMapper;    
+
+    private final EntityManager entityManager;
+
 
     @Override
-    public StateEntity save(StateEntity entity) {
-        return iStateRepository.save(entity);
+    public StateResponseDto save(StateRequestDto dto) {
+
+        StateEntity stateEntity = stateMapper.toEntity(dto);
+
+        StateEntity savedEntity = iStateRepository.save(stateEntity);
+
+        return stateMapper.toDto(savedEntity);
 
     }
 
     @Override
-    public StateEntity update(Long id, StateEntity entity) {
+    public StateResponseDto update(Long id, StateRequestDto dto) {
+
+        StateEntity stateEntity = stateMapper.toEntity(dto);
 
         StateEntity existing = iStateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("State not found with id: " + id));
 
-        BeanUtils.copyProperties(entity, existing, "idState", "createdAt");
+        BeanUtils.copyProperties(stateEntity, existing, "idState", "createdAt");
 
-        return iStateRepository.save(existing);        
+        StateEntity updatedEntity = iStateRepository.save(existing);
+
+        return stateMapper.toDto(updatedEntity);
 
     }
 
     @Override
-    public StateEntity findById(Long id) {
-        return iStateRepository.findById(id).orElse(null);
+    public StateResponseDto findById(Long id) {
+        StateEntity entity = iStateRepository.findById(id).orElse(null);
+        return stateMapper.toDto(entity);
     }
 
     @Override
-    public StateEntity delete(Long id) {
-        StateEntity entity = findById(id);
+    public StateResponseDto delete(Long id) {
+        StateEntity entity = iStateRepository.findById(id).orElse(null);
         if (entity != null) {
             iStateRepository.deleteById(id);
-            return entity;
+            return stateMapper.toDto(entity);
         }
         return null;
     }
 
     @Override
-    public List<StateEntity> getAllStates() {
-        return iStateRepository.findAll();
+    public List<StateResponseDto> getAllStates() {
+        List<StateEntity> entities = iStateRepository.findAll();
+        return stateMapper.toDtoList(entities);
+    }
+
+    @Override
+    public List<StateResponseDto> getAllStatesJpa() {
+
+        String sqlJpqlDto = """
+                SELECT new com.semillero.semillero.dto.
+                StateResponseDto(s.idState, s.stateDescription, s.stateComment, 
+                s.createdAt, 
+                s.updatedAt) 
+                FROM StateEntity s 
+                """;
+
+                sqlJpqlDto += "WHERE s.idState = 5 ";
+                sqlJpqlDto += "ORDER BY s.idState ASC";
+
+        Query queryJpql = entityManager.createQuery(sqlJpqlDto, StateResponseDto.class);
+        List<StateResponseDto> entities = queryJpql.getResultList();
+
+         return entities;
+
     }
 
 
 
-    public void printService() {
-        System.out.println("State Service Implemented");
-    }
+
        
 
 }

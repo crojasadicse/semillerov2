@@ -1,3 +1,4 @@
+
 ### Crear State
 POST http://localhost:8080/states
 Content-Type: application/json
@@ -7,6 +8,24 @@ Content-Type: application/json
     "stateComment": "Estado inicial de la solicitud"
 }
 
-
-### Obtener State
+### Obtener State por ID
 GET http://localhost:8080/states/2
+
+### Actualizar State
+PUT http://localhost:8080/states/2
+Content-Type: application/json
+
+{
+    "stateDescription": "ACTUALIZADO",
+    "stateComment": "Estado actualizado de la solicitud"
+}
+
+### Eliminar State
+DELETE http://localhost:8080/states/2
+
+### Listar todos los States
+GET http://localhost:8080/states
+
+
+### Listar todos los StatesJpa
+GET http://localhost:8080/states/jpa

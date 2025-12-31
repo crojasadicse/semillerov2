@@ -14,6 +14,11 @@ public interface IStateRepository  extends JpaRepository<StateEntity, Long> {
 
     @Query("SELECT s FROM StateEntity s WHERE s.stateDescription LIKE %?1%")
     List<StateEntity> findByComment(String comment);
+    
+    
+
+
+
 
     
 
