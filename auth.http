@@ -1,0 +1,13 @@
+
+### Ejemplo de petición con autorización Basic
+GET http://localhost:8080/states/1
+Authorization: Basic test:admin
+
+
+
+### Login con usuario y contraseña (form-urlencoded)
+POST http://localhost:8080/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=usuario&password=contrasenha
+

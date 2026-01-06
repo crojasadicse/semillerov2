@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +26,11 @@ import com.semillero.semillero.service.IStateService;
 @RequestMapping("/states")
 public class StateController {
 
+    
     @Autowired
     private IStateService iStateService;
 
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<StateResponseDto> create(@RequestBody StateRequestDto dto) {
 
@@ -36,6 +39,7 @@ public class StateController {
      
     }
 
+    //@PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<StateResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(iStateService.findById(id));

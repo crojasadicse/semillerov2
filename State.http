@@ -1,6 +1,7 @@
 
 ### Crear State
 POST http://localhost:8080/states
+Authorization: Basic user:admin
 Content-Type: application/json
 
 {
@@ -9,7 +10,8 @@ Content-Type: application/json
 }
 
 ### Obtener State por ID
-GET http://localhost:8080/states/2
+GET http://localhost:8080/states/1
+
 
 ### Actualizar State
 PUT http://localhost:8080/states/2
@@ -25,7 +27,7 @@ DELETE http://localhost:8080/states/2
 
 ### Listar todos los States
 GET http://localhost:8080/states
-
+Authorization: Basic user:admin
 
 ### Listar todos los StatesJpa
 GET http://localhost:8080/states/jpa
