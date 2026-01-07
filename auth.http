@@ -1,7 +1,11 @@
+#Crear la variable {{token}} con el token JWT obtenido al hacer login
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNzY3Nzk3MDYxLCJleHAiOjE3Njc4MDA2NjF9.BmeB1Sv1MO13fcGzu3R4aYdbMmbMF6NXtZZ7eTvyWYw
+
+
 
 ### Ejemplo de petición con autorización Basic
 GET http://localhost:8080/states/1
-Authorization: Basic admin:admin
+Authorization: Bearer {{token}}
 
 
 
@@ -9,5 +13,5 @@ Authorization: Basic admin:admin
 POST http://localhost:8080/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-username=test&password=admin
+username=admin&password=12345
 
