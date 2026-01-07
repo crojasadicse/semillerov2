@@ -1,7 +1,7 @@
 
 ### Ejemplo de petición con autorización Basic
 GET http://localhost:8080/states/1
-Authorization: Basic test:admin
+Authorization: Basic admin:admin
 
 
 
@@ -9,5 +9,5 @@ Authorization: Basic test:admin
 POST http://localhost:8080/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-username=usuario&password=contrasenha
+username=test&password=admin
 
