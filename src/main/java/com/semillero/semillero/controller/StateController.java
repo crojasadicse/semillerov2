@@ -42,7 +42,7 @@ public class StateController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')" )
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')" )
     @GetMapping("/{id}")
     public ResponseEntity<StateResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(iStateService.findById(id));

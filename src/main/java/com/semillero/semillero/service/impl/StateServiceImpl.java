@@ -49,7 +49,7 @@ public class StateServiceImpl implements IStateService {
         StateEntity stateEntity = stateMapper.toEntity(dto);
 
         StateEntity existing = iStateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("State not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("El Id de state no existe: " + id));
 
         BeanUtils.copyProperties(stateEntity, existing, "idState", "createdAt");
 
@@ -62,7 +62,7 @@ public class StateServiceImpl implements IStateService {
     @Override
     public StateResponseDto findById(Long id) {
         StateEntity entity = iStateRepository.findById(id).orElseThrow(
-            () -> new ResourceNotFoundException("State not found with id: " + id)
+            () -> new ResourceNotFoundException("El Id de state no existe: " + id)
         );
         return stateMapper.toDto(entity);
     }
@@ -139,7 +139,7 @@ public class StateServiceImpl implements IStateService {
             List<StateEntity> entities = iStateRepository.getAllStateProcedure();
             return stateMapper.toDtoList(entities);
         } catch (Exception e) {
-            throw new BadRequestException("Error al ejecutar el procedimiento almacenado desde el repositorio: " + e.getMessage());
+            throw new BadRequestException("Error al ejecutar el procedimiento almacenado desde el repositorio: " );
         }
     }
 

@@ -1,5 +1,5 @@
 #Crear la variable {{token}} con el token JWT obtenido al hacer login
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNzY3ODgxNTMzLCJleHAiOjE3Njc4ODUxMzN9.GnCsTAfydrhZNQ5vQo5kAwg_AbJyfAd1OGw7I-54JZU
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTc2Nzg4NDMyMiwiZXhwIjoxNzY3ODg3OTIyfQ.syBy5f1dFU0R0VfdmA-27BpEMZBZEMnXvIwRSqVym5A
 
 
 
@@ -13,5 +13,5 @@ Authorization: Bearer {{token}}
 POST http://localhost:8080/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-username=admin&password=12345
+username=user&password=12345
 
