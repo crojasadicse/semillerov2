@@ -55,6 +55,22 @@ public class StateMapper {
             .map(this::toEntity)
             .toList();
 
+    }
+
+    public List<StateResponseDto> toDtoListFromProcedure(List<Object[]> result) {
+
+        
+
+        return result.stream()
+            .map(record -> StateResponseDto.builder()
+                .idState(((Number) record[0]).longValue())
+                .stateDescription((String) record[1])
+                .stateComment((String) record[2])
+                .createdAt(record[3] != null ? record[3].toString() : null)
+                .updatedAt(record[4] != null ? record[4].toString() : null)
+                .build())
+            .toList();
+
     }    
 
 

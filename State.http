@@ -1,16 +1,19 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNzY3ODgwNDE4LCJleHAiOjE3Njc4ODQwMTh9.OSctF6noqH4SrUn0alsav6pvARE1eHyldVAuRgrADhY
+
 
 ### Crear State
 POST http://localhost:8080/states
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-    "stateDescription": "PENDIENTE",
+    "stateDescription": "EJECUTADO",
     "stateComment": "Estado inicial de la solicitud"
 }
 
 ### Obtener State por ID
 GET http://localhost:8080/states/1
-Authorization: Basic admin:admin
+Authorization: Bearer {{token}}
 
 
 ### Actualizar State
@@ -31,3 +34,12 @@ Authorization: Basic user:admin
 
 ### Listar todos los StatesJpa
 GET http://localhost:8080/states/jpa
+
+
+### Listar todos los States desde procedimiento almacenado
+GET http://localhost:8080/states/procedure
+Authorization: Bearer {{token}}
+
+### Listar todos los States desde procedimiento almacenado con repository
+GET http://localhost:8080/states/procedure-repository
+Authorization: Bearer {{token}}

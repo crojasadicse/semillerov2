@@ -14,6 +14,10 @@ public interface IStateService extends ICrudCommonsDto<StateRequestDto, StateRes
     
     List<StateResponseDto> getAllStatesJpa();
 
+    List<StateResponseDto> getAllFromProcedure();
+
+    List<StateResponseDto> getAllFromProcedureRepository();
+
 
 
 

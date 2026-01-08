@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.semillero.semillero.exception.ResourceNotFoundException;
 import com.semillero.semillero.models.User;
 import com.semillero.semillero.repository.IUserRepository;
 import com.semillero.semillero.repository.IUserRoleRepository;
@@ -24,7 +25,7 @@ public class UserImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userRepository.getByUserName(username)
-            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + username));
 
         var userRols = userRoleRepository.getRolesByUser(user.getId());
 
