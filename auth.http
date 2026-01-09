@@ -11,7 +11,10 @@ Authorization: Bearer {{token}}
 
 ### Login con usuario y contraseña (form-urlencoded)
 POST http://localhost:8080/auth/login
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-username=user&password=12345
+{
+    "username": "admin",
+    "password": "12345"
+}
 
