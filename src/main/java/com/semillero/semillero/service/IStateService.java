@@ -4,11 +4,12 @@ import java.util.List;
 
 
 import com.semillero.semillero.commons.ICrudCommonsDto;
+import com.semillero.semillero.commons.IPaginationCommons;
 import com.semillero.semillero.dto.StateRequestDto;
 import com.semillero.semillero.dto.StateResponseDto;
 
 
-public interface IStateService extends ICrudCommonsDto<StateRequestDto, StateResponseDto, Long> {
+public interface IStateService extends ICrudCommonsDto<StateRequestDto, StateResponseDto, Long>, IPaginationCommons<StateResponseDto> {
 
     List<StateResponseDto> getAllStates();
     
@@ -17,9 +18,6 @@ public interface IStateService extends ICrudCommonsDto<StateRequestDto, StateRes
     List<StateResponseDto> getAllFromProcedure();
 
     List<StateResponseDto> getAllFromProcedureRepository();
-
-
-
 
 
 }

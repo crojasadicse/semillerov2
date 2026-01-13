@@ -1,11 +1,15 @@
 package com.semillero.semillero.service.impl;
 
-import java.lang.Thread.State;
+
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
+import com.semillero.semillero.commons.PaginationModel;
 import com.semillero.semillero.dto.StateRequestDto;
 import com.semillero.semillero.dto.StateResponseDto;
 import com.semillero.semillero.exception.BadRequestException;
@@ -19,6 +23,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.Query;
 import jakarta.persistence.StoredProcedureQuery;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -141,6 +146,38 @@ public class StateServiceImpl implements IStateService {
         } catch (Exception e) {
             throw new BadRequestException("Error al ejecutar el procedimiento almacenado desde el repositorio: " );
         }
+    }
+
+    @Override
+    public PageImpl<StateResponseDto> getPagination(PaginationModel paginationModel) {
+
+        Integer page = paginationModel.getPageNumber();
+        Integer rowPage = paginationModel.getRowsPerPage();
+
+        Pageable pageable =  PageRequest.of(page, rowPage);
+
+        Long totalRegistros = 0L;
+
+        String sql = "SELECT new com.semillero.semillero.dto.StateResponseDto " 
+        + "(s.idState, s.stateDescription, s.stateComment, s.createdAt, s.updatedAt) FROM StateEntity s";
+
+        
+
+        String sqlCount = " SELECT COUNT(s.idState) FROM StateEntity s";
+
+        TypedQuery<StateResponseDto> querySelect = entityManager.createQuery(sql,StateResponseDto.class);
+        querySelect.setFirstResult((int)pageable.getOffset());
+        querySelect.setMaxResults(pageable.getPageSize());        
+
+        TypedQuery<Long> queryCount = entityManager.createQuery(sqlCount, Long.class);
+
+        List<StateResponseDto> results = querySelect.getResultList();
+        totalRegistros = queryCount.getSingleResult();
+
+
+        return new PageImpl<>(results, pageable, totalRegistros);
+
+
     }
 
 

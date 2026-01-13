@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.semillero.semillero.commons.PaginationModel;
 import com.semillero.semillero.dto.StateRequestDto;
 import com.semillero.semillero.dto.StateResponseDto;
 import com.semillero.semillero.service.IStateService;
@@ -85,5 +86,14 @@ public class StateController {
     @GetMapping("/procedure-repository")
     public ResponseEntity<List<StateResponseDto>> getAllFromProcedureRepository() {
         return ResponseEntity.status(HttpStatus.OK).body(iStateService.getAllFromProcedureRepository());
-    }      
+    }    
+    
+    @PostMapping("/pagination")
+    public ResponseEntity<Iterable<StateResponseDto>> pagination(@RequestBody PaginationModel paginationModel) {
+
+        var page = iStateService.getPagination(paginationModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
+    }    
+
 }
