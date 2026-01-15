@@ -3,13 +3,16 @@ package com.semillero.semillero.service.impl;
 
 import java.util.List;
 
+import org.antlr.v4.runtime.misc.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import com.semillero.semillero.commons.FilterModel;
 import com.semillero.semillero.commons.PaginationModel;
+import com.semillero.semillero.commons.SortModel;
 import com.semillero.semillero.dto.StateRequestDto;
 import com.semillero.semillero.dto.StateResponseDto;
 import com.semillero.semillero.exception.BadRequestException;
@@ -154,6 +157,10 @@ public class StateServiceImpl implements IStateService {
         Integer page = paginationModel.getPageNumber();
         Integer rowPage = paginationModel.getRowsPerPage();
 
+        if(rowPage <=0 ){
+            rowPage = 10;
+        }
+
         Pageable pageable =  PageRequest.of(page, rowPage);
 
         Long totalRegistros = 0L;
@@ -161,13 +168,31 @@ public class StateServiceImpl implements IStateService {
         String sql = "SELECT new com.semillero.semillero.dto.StateResponseDto " 
         + "(s.idState, s.stateDescription, s.stateComment, s.createdAt, s.updatedAt) FROM StateEntity s";
 
-        
+   
 
+
+        List<SortModel> sorts = paginationModel.getSorts();
+        List<FilterModel> filters = paginationModel.getFilters();
+
+        for (SortModel sort : sorts) {
+            sql += " ORDER BY s.idState + "  + sort.getDirection();
+
+            if(sort.getColName().equals("stateDescription")){
+                sql += " , s.stateDescription "  + sort.getDirection();
+            }
+        }
         String sqlCount = " SELECT COUNT(s.idState) FROM StateEntity s";
 
         TypedQuery<StateResponseDto> querySelect = entityManager.createQuery(sql,StateResponseDto.class);
+
         querySelect.setFirstResult((int)pageable.getOffset());
-        querySelect.setMaxResults(pageable.getPageSize());        
+        querySelect.setMaxResults(pageable.getPageSize());      
+
+        StringBuilder whereClause = new StringBuilder();
+        int i = 1;
+        
+
+
 
         TypedQuery<Long> queryCount = entityManager.createQuery(sqlCount, Long.class);
 

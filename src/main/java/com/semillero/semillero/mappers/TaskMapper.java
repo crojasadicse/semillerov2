@@ -4,11 +4,14 @@ package com.semillero.semillero.mappers;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.semillero.semillero.dto.TaskRequestDto;
 import com.semillero.semillero.dto.TaskResponseDto;
 import com.semillero.semillero.models.StateEntity;
 import com.semillero.semillero.models.TaskEntity;
 
+@Component
 public class TaskMapper {
 
 
