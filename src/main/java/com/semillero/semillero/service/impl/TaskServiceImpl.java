@@ -1,17 +1,10 @@
 package com.semillero.semillero.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.management.Query;
-import javax.swing.text.html.parser.Entity;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import com.semillero.semillero.commons.FilterModel;
@@ -97,7 +90,7 @@ public class TaskServiceImpl implements ITaskService {
         return iTaskRepository.findAll();
     }
 
-    @SuppressWarnings("unchecked")
+    
     @Override
     public PageImpl<TaskResponseDto> getPagination(PaginationModel paginationModel) {
         Integer page = paginationModel.getPageNumber();
@@ -145,6 +138,7 @@ public class TaskServiceImpl implements ITaskService {
 
         int i = 0;
 
+
         for (FilterModel filter : filters) {
             if(i > 0) {
                 whereClause += " AND ";
@@ -155,6 +149,10 @@ public class TaskServiceImpl implements ITaskService {
             if (filter.getField().equals("taskTitle")) {
                 whereClause += " upper(t.taskTitle) LIKE :paramTaskTitle ";
             }
+
+           if (filter.getField().equals("taskDescription")) {
+                whereClause += " upper(t.taskDescription) LIKE :paramTaskDescription ";
+            }            
 
             i++;
         }
@@ -171,6 +169,9 @@ public class TaskServiceImpl implements ITaskService {
 
             if (filter.getField().equals("taskTitle")) {
                 querySelect.setParameter("paramTaskTitle", "%" + filter.getValue().toUpperCase() + "%");
+            }
+            if (filter.getField().equals("taskDescription")) {
+                querySelect.setParameter("paramTaskDescription", "%" + filter.getValue().toUpperCase() + "%");
             }
 
         }
